@@ -1,6 +1,15 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using Gql;
 
-app.MapGet("/", () => "Hello World!");
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddGraphQLServer()
+        .AddQueryType<Query>();
+var app = builder.Build();
+app.UseRouting()
+   .UseEndpoints(endpoints =>
+       {
+           endpoints.MapGraphQL();
+       });
+       
+app.MapGet("/", () => "Hello GraphQL!");
 
 app.Run();
